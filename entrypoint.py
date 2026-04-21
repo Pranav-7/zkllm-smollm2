@@ -568,6 +568,8 @@ def _startup():
         print(f"[server] Loading {MODEL_CARD} ...", flush=True)
         t0         = time.time()
         _tokenizer = AutoTokenizer.from_pretrained(MODEL_CARD, **kw)
+        if _tokenizer.pad_token is None:
+            _tokenizer.pad_token = _tokenizer.eos_token
         _model     = AutoModelForCausalLM.from_pretrained(
             MODEL_CARD, torch_dtype=torch.float32, **kw
         ).cuda()
