@@ -353,6 +353,15 @@ def _run_proof_pipeline(run_dir, input_file, n_layers):
     """
     os.makedirs(run_dir, exist_ok=True)
 
+    # Symlink shared PP files from WORKDIR into run_dir so the CUDA binaries
+    # can find them. The binaries look for {workdir}/{name}-pp.bin.
+    for fname in os.listdir(WORKDIR):
+        if fname.endswith('-pp.bin'):
+            src = f"{WORKDIR}/{fname}"
+            dst = f"{run_dir}/{fname}"
+            if not os.path.exists(dst):
+                os.symlink(src, dst)
+
     per_layer_input = input_file
     metrics = []
 
