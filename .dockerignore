@@ -1,0 +1,16 @@
+.git
+.gitignore
+.github
+__pycache__
+*.pyc
+*.pyo
+.DS_Store
+*.log
+*.ipynb
+.ipynb_checkpoints
+output/
+.cache/
+*.zip
+*.tar.gz
+README.md
+docker-compose.yml

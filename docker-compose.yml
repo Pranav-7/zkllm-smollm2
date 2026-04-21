@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  zkllm-prover:
+    image: YOUR_DOCKERHUB_USERNAME/zkllm-smollm2:latest
+    ports:
+      - "8000:8000"
+    environment:
+      MODEL_CARD: "HuggingFaceTB/SmolLM2-135M"
+      SEQ_LEN: "512"
+      OUTPUT_DIR: "/app/output"
+      # HF_TOKEN: "hf_..."
+    volumes:
+      - output:/app/output
+      - hf_cache:/app/hf_cache
+      - workdir:/app/zkllm-workdir
+      - proofs:/app/proofs
+      - benchmarks:/app/benchmarks
+    restart: "no"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    shm_size: "4gb"
+
+volumes:
+  output:
+  hf_cache:
+  workdir:
+  proofs:
+  benchmarks:
